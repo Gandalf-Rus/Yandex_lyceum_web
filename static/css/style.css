@@ -17,11 +17,6 @@ h1 {
   line-height: 64px;
 }
 
-h2 {
-  border-bottom: 2px solid #cccccc;
-  padding-bottom: 12px;
-}
-
 .container {
   width: 510px;
   margin: 0 auto;
@@ -31,9 +26,9 @@ h2 {
 .site-header {
   min-width: 550px;
   height: 186px;
-  margin-bottom: 70px;
+  margin-bottom: 150px;
   padding-top: 30px;
-  background: #847462 no-repeat center url("img/gloevk-bg.jpg");
+  background: #847462 no-repeat center url("../img/cooking.png");
   background-size: cover;
   color: #ffffff;
 }
@@ -65,21 +60,6 @@ h2 {
   background-repeat: no-repeat;
   background-position: center top;
   text-align: center;
-}
-
-.feature-furniture {
-  padding-top: 65px;
-  background-image: url("img/furniture.svg");
-}
-
-.feature-lighting {
-  padding-top: 65px;
-  background-image: url("img/lighting.svg");
-}
-
-.feature-accessories {
-  padding-top: 65px;
-  background-image: url("img/accessories.svg");
 }
 
 .advantages {
