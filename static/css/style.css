@@ -20,13 +20,12 @@ h1 {
 .container {
   width: 510px;
   margin: 0 auto;
-  padding: 0 20px;
 }
 
 .site-header {
   min-width: 550px;
   height: 186px;
-  margin-bottom: 150px;
+  margin-bottom: 50px;
   padding-top: 30px;
   background: #847462 no-repeat center url("../img/cooking.png");
   background-size: cover;
@@ -41,48 +40,9 @@ h1 {
   line-height: 24px;
 }
 
-.site-header img {
-  display: block;
-  margin: 0 auto;
-}
-
-.features {
-  width: 510px;
-  margin: 0 auto 30px;
-  padding: 0 20px;
-}
-
-.features p {
-  display: inline-block;
-  vertical-align: top;
-  width: 30%;
-  margin: 0 5px;
-  background-repeat: no-repeat;
-  background-position: center top;
-  text-align: center;
-}
-
-.advantages {
-  width: 510px;
-  margin: 0 auto 40px;
-  padding: 0 20px;
-}
-
-.advantages-list {
-  padding: 0;
-  list-style: none;
-}
-
-.advantages-item {
-  margin-bottom: 15px;
-  padding-left: 20px;
-  border-left: 20px solid #e2e2e2;
-  color: #999999;
-}
-
-
 .site-footer {
   min-width: 550px;
+  min-height: 100px;
   background-color: #847462;
   color: #ffffff;
 }
