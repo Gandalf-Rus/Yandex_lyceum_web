@@ -13,13 +13,14 @@ h1 {
   font-family: "Georgia", serif;
   text-align: center;
   font-weight: normal;
-  font-size: 56px;
-  line-height: 64px;
+  font-size: 42px;
+  line-height: 48px;
 }
 
 .container {
   width: 510px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .site-header {
@@ -30,14 +31,6 @@ h1 {
   background: #847462 no-repeat center url("../img/cooking.png");
   background-size: cover;
   color: #ffffff;
-}
-
-.site-header p {
-  width: 255px;
-  margin: 0 auto 26px;
-  text-align: center;
-  font-size: 16px;
-  line-height: 24px;
 }
 
 .site-footer {
