@@ -1,0 +1,17 @@
+{% extends "new_style.html" %}
+
+{% block content %}
+<!--{% if current_user.is_authenticated %}
+    <a href="news" class="btn btn-secondary">Добавить новость</a>
+{% endif %}-->
+{% for item in news%}
+<div class = "new-box">
+    <div class = "img"></div>
+    <div >
+        <p>{{item.content}}</p>
+        <p>Автор - {{item.user.name}}, Дата написания - {{item.created_date}}</p>
+    </div>
+    
+</div>
+{% endfor %}
+{% endblock %}

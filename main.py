@@ -36,6 +36,7 @@ def main():
         else:
             news = db_sess.query(News).filter(News.is_private != True)
         return render_template("index.html", news=news)
+        # return render_template("new_index.html", news=news)
 
     @app.route('/register', methods=['GET', 'POST'])
     def reqister():

@@ -19,25 +19,26 @@
           </center>
       </div>
     </header>
-    <nav class="navbar navbar-dark" style="background-color: #000047;">
-            <a class="navbar-brand" href="#">Наше приложение</a>
-            {% if current_user.is_authenticated %}
-                <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
-            {% else %}
-                <p>
-                    <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
-                    <a class="btn btn-success" href="/login">Войти</a>
-                </p>
-            {% endif %}
-    </nav>
-    <main role="main" class="container">
+    <main role="main" class="primary-container">
+      <nav class="navbar navbar-dark" style="background-color: #32B36A;">
+        <a class="navbar-brand" href="#">Наше приложение</a>
+        {% if current_user.is_authenticated %}
+            <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
+        {% else %}
+            <p>
+                <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
+                <a class="btn btn-success" href="/login">Войти</a>
+            </p>
+        {% endif %}
+</nav>
     	{% block content %}{% endblock %}
-    </main>
-
-    <footer class="site-footer">
+      <footer class="site-footer">
         <p>© Baratie, 2022</p>
         <p>книга рецептов</p>
         <p>номер тех поддержки: +70000000000</p>
     </footer>
+    </main>
+
+
   </body>
 </html>

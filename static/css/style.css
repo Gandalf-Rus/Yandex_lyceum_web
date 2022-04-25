@@ -2,26 +2,29 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Arial", sans-serif;
-  font-size: 14px;
   line-height: 20px;
   color: #444444;
+  background-color: #103011;
 }
 
 h1 {
   width: 255px;
   margin: 0 auto 8px;
-  font-family: "Georgia", serif;
+  font-family: "Arial", sans-serif;
   text-align: center;
-  font-weight: normal;
-  font-size: 42px;
-  line-height: 48px;
+  font-weight: bold;
+  font-size: 50px;
+}
+
+h2 {
+  margin-top: 30px;
+  text-align: center;
 }
 
 .site-header {
   min-width: 550px;
   height: 186px;
   padding-top: 30px;
-  background: #847462 no-repeat center url("../img/cooking.png");
   background-size: cover;
   color: #ffffff;
 }
@@ -29,7 +32,7 @@ h1 {
 .site-footer {
   min-width: 550px;
   min-height: 100px;
-  background-color: #000030;
+  background-color: #374c45;
   color: #ffffff;
 }
 
@@ -43,4 +46,11 @@ h1 {
   display: inline-block;
   vertical-align: middle;
   padding: 0 20px;
+}
+
+.primary-container {
+  background-color: #ffffff;
+  border-radius: 5px;
+  max-width: 70%;
+  margin: auto;
 }
