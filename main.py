@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_restful import Api
 from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
 
-from data import db_session
+from data import db_session, recipes_api
 from data.users import User
 from data.news import News
 from forms.new import NewsForm
@@ -16,11 +17,13 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+api = Api(app)
 
 
 def main():
     db_session.global_init("db/blogs.db")
-
+    api.add_resource(recipes_api.NewsListResource, '/api/v2/recipes')
+    api.add_resource(recipes_api.NewsResource, '/api/v2/recipes/<int:news_id>')
     @login_manager.user_loader
     def load_user(user_id):
         db_sess = db_session.create_session()
@@ -36,7 +39,6 @@ def main():
         else:
             news = db_sess.query(News).filter(News.is_private != True)
         return render_template("index.html", news=news)
-        # return render_template("new_index.html", news=news)
 
     @app.route('/register', methods=['GET', 'POST'])
     def reqister():
