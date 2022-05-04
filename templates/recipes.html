@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if message == None %}
+<h3>{{recipes["title"]}}</h3>
+<div class="container">
+    {% for string in recipes["content"].split("\r\n") %}
+    <h5>{{string}}</h5>
+    {% endfor %}
+</div>
+<p>
+    Автор: {{recipes["user"]["name"]}} Дата написания: {{recipes["created_date"]}}
+</p>
+{% if current_user.id == recipes["user_id"] %}
+<div>
+    <a href="/news/{{ recipes['id'] }}" class="btn btn-warning">
+        Изменить
+    </a>
+    <a href="/news_delete/{{ recipes['id'] }}" class="btn btn-danger">
+        Удалить
+    </a>
+</div>
+</div>
+{% endif %}
+{% else %}
+<h2>{{ message }}</h2>
+{% endif %}
+
+{% endblock %}

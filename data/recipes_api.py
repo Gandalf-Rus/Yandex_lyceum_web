@@ -17,8 +17,8 @@ class NewsResource(Resource):
         abort_if_news_not_found(news_id)
         session = db_session.create_session()
         news = session.query(News).get(news_id)
-        return jsonify({'news': news.to_dict(
-            only=('title', 'content', 'user_id', 'is_private'))})
+        return jsonify({'recipes': news.to_dict(
+            only=('title', 'content', 'user_id', 'is_private', "created_date", "user.name", "id"))})
 
     def delete(self, news_id):
         abort_if_news_not_found(news_id)
@@ -40,8 +40,8 @@ class NewsListResource(Resource):
     def get(self):
         session = db_session.create_session()
         news = session.query(News).all()
-        return jsonify({'news': [item.to_dict(
-            only=('title', 'content', 'user.name')) for item in news]})
+        return jsonify({'recipes': [item.to_dict(
+            only=('title', 'content', 'user_id', 'is_private', "created_date", "user.name", "id")) for item in news]})
 
     def post(self):
         args = parser.parse_args()

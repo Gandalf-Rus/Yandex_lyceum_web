@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../static/css/style.css">
     <title>ToDo, книга книга рецептов</title>
   </head>
-  <body>
+  <body bgcolor="#000" background="/static/img/img.png">
     <header class="site-header">
       <div class="container">
         <h1>ToDo</h1>
@@ -20,7 +20,7 @@
       </div>
     </header>
     <main role="main" class="primary-container">
-        <nav class="navbar navbar-dark navbar" style="background-color: #32B36A;">
+        <nav class="navbar navbar-dark navbar" style="background-color: #02880b;">
         <a class="navbar-brand" href="/">Главная</a>
         {% if current_user.is_authenticated %}
             <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
@@ -37,7 +37,8 @@
       <footer class="site-footer">
         <p>©ToDo, 2022</p>
         <p>книга рецептов</p>
-        <p>номер тех поддержки: +70000000000</p>
+        <p>номер тех поддержки: +7 (938) 500-90-70</p><br>
+        <p><b>по номеру не звонить!!!</b></p>
       </footer>
     </main>
 
