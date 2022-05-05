@@ -7,7 +7,7 @@ from requests import get
 
 from data import db_session, recipes_api
 from data.users import User
-from data.recipes import News
+from data.recipes import Recipes
 from forms.add_and_change_form import AddingForm
 from forms.user import RegisterForm
 from forms.login_form import LoginForm
@@ -22,8 +22,8 @@ api = Api(app)
 
 def main():
     db_session.global_init("db/blogs.db")
-    api.add_resource(recipes_api.NewsListResource, '/api/recipes')
-    api.add_resource(recipes_api.NewsResource, '/api/recipes/<int:news_id>')
+    api.add_resource(recipes_api.RecipesListResource, '/api/recipes')
+    api.add_resource(recipes_api.RecipesResource, '/api/recipes/<int:news_id>')
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -37,11 +37,11 @@ def main():
         """
         db_sess = db_session.create_session()
         if current_user.is_authenticated:
-            news = db_sess.query(News).filter(
-                (News.user == current_user) | (News.is_private != True))
+            recipes = db_sess.query(Recipes).filter(
+                (Recipes.user == current_user) | (Recipes.is_private != True))
         else:
-            news = db_sess.query(News).filter(News.is_private != True)
-        return render_template("index.html", news=news)
+            recipes = db_sess.query(Recipes).filter(Recipes.is_private != True)
+        return render_template("index.html", news=recipes)
 
     @app.route('/recipes/<int:id>')
     def recipes(id):
@@ -120,15 +120,15 @@ def main():
 
     @app.route('/add_recipes', methods=['GET', 'POST'])
     @login_required
-    def add_news():
+    def add_recip():
         form = AddingForm()
         if form.validate_on_submit():
             db_sess = db_session.create_session()
-            news = News()
-            news.title = form.title.data
-            news.content = form.content.data
-            news.is_private = form.is_private.data
-            current_user.news.append(news)
+            recipes = Recipes()
+            recipes.title = form.title.data
+            recipes.content = form.content.data
+            recipes.is_private = form.is_private.data
+            current_user.recipes.append(recipes)
             db_sess.merge(current_user)
             db_sess.commit()
             return redirect('/')
@@ -137,28 +137,28 @@ def main():
 
     @app.route('/change_recipes/<int:id>', methods=['GET', 'POST'])
     @login_required
-    def edit_news(id):
+    def change_recip(id):
         form = AddingForm()
         if request.method == "GET":
             db_sess = db_session.create_session()
-            news = db_sess.query(News).filter(News.id == id,
-                                              News.user == current_user
-                                              ).first()
-            if news:
-                form.title.data = news.title
-                form.content.data = news.content
-                form.is_private.data = news.is_private
+            recipes = db_sess.query(Recipes).filter(Recipes.id == id,
+                                                    Recipes.user == current_user
+                                                    ).first()
+            if recipes:
+                form.title.data = recipes.title
+                form.content.data = recipes.content
+                form.is_private.data = recipes.is_private
             else:
                 abort(404)
         if form.validate_on_submit():
             db_sess = db_session.create_session()
-            news = db_sess.query(News).filter(News.id == id,
-                                              News.user == current_user
-                                              ).first()
-            if news:
-                news.title = form.title.data
-                news.content = form.content.data
-                news.is_private = form.is_private.data
+            recipes = db_sess.query(Recipes).filter(Recipes.id == id,
+                                                 Recipes.user == current_user
+                                                 ).first()
+            if recipes:
+                recipes.title = form.title.data
+                recipes.content = form.content.data
+                recipes.is_private = form.is_private.data
                 db_sess.commit()
                 return redirect('/')
             else:
@@ -170,13 +170,13 @@ def main():
 
     @app.route('/delete_recipes/<int:id>', methods=['GET', 'POST'])
     @login_required
-    def news_delete(id):
+    def delete_recipes(id):
         db_sess = db_session.create_session()
-        news = db_sess.query(News).filter(News.id == id,
-                                          News.user == current_user
-                                          ).first()
-        if news:
-            db_sess.delete(news)
+        recipes = db_sess.query(Recipes).filter(Recipes.id == id,
+                                             Recipes.user == current_user
+                                             ).first()
+        if recipes:
+            db_sess.delete(recipes)
             db_sess.commit()
         else:
             abort(404)

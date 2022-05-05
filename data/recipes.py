@@ -6,7 +6,7 @@ from data.db_session import SqlAlchemyBase
 from tools.time_round import round_time
 
 
-class News(SqlAlchemyBase, SerializerMixin):
+class Recipes(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'news'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
