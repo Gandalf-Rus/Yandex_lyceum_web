@@ -12,6 +12,7 @@ from forms.add_and_change_form import AddingForm
 from forms.user import RegisterForm
 from forms.login_form import LoginForm
 
+# config
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
@@ -23,7 +24,7 @@ api = Api(app)
 def main():
     db_session.global_init("db/blogs.db")
     api.add_resource(recipes_api.RecipesListResource, '/api/recipes')
-    api.add_resource(recipes_api.RecipesResource, '/api/recipes/<int:news_id>')
+    api.add_resource(recipes_api.RecipesResource, '/api/recipes/<int:recip_id>')
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -41,7 +42,7 @@ def main():
                 (Recipes.user == current_user) | (Recipes.is_private != True))
         else:
             recipes = db_sess.query(Recipes).filter(Recipes.is_private != True)
-        return render_template("index.html", news=recipes)
+        return render_template("index.html", recipes=recipes)
 
     @app.route('/recipes/<int:id>')
     def recipes(id):
@@ -153,8 +154,8 @@ def main():
         if form.validate_on_submit():
             db_sess = db_session.create_session()
             recipes = db_sess.query(Recipes).filter(Recipes.id == id,
-                                                 Recipes.user == current_user
-                                                 ).first()
+                                                    Recipes.user == current_user
+                                                    ).first()
             if recipes:
                 recipes.title = form.title.data
                 recipes.content = form.content.data
@@ -173,8 +174,8 @@ def main():
     def delete_recipes(id):
         db_sess = db_session.create_session()
         recipes = db_sess.query(Recipes).filter(Recipes.id == id,
-                                             Recipes.user == current_user
-                                             ).first()
+                                                Recipes.user == current_user
+                                                ).first()
         if recipes:
             db_sess.delete(recipes)
             db_sess.commit()

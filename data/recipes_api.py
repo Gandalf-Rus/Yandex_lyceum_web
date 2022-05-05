@@ -5,26 +5,26 @@ from data import db_session
 from data.recipes import Recipes
 
 
-def abort_if_news_not_found(news_id):
+def abort_if_recipes_not_found(recip_id):
     session = db_session.create_session()
-    news = session.query(Recipes).get(news_id)
-    if not news:
-        abort(404, message=f"News {news_id} not found")
+    recipes = session.query(Recipes).get(recip_id)
+    if not recipes:
+        abort(404, message=f"recipes {recip_id} not found")
 
 
 class RecipesResource(Resource):
-    def get(self, news_id):
-        abort_if_news_not_found(news_id)
+    def get(self, recip_id):
+        abort_if_recipes_not_found(recip_id)
         session = db_session.create_session()
-        news = session.query(Recipes).get(news_id)
-        return jsonify({'recipes': news.to_dict(
+        recipes = session.query(Recipes).get(recip_id)
+        return jsonify({'recipes': recipes.to_dict(
             only=('title', 'content', 'user_id', 'is_private', "created_date", "user.name", "id"))})
 
-    def delete(self, news_id):
-        abort_if_news_not_found(news_id)
+    def delete(self, recip_id):
+        abort_if_recipes_not_found(recip_id)
         session = db_session.create_session()
-        news = session.query(Recipes).get(news_id)
-        session.delete(news)
+        recipes = session.query(Recipes).get(recip_id)
+        session.delete(recipes)
         session.commit()
         return jsonify({'success': 'OK'})
 
@@ -39,19 +39,19 @@ parser.add_argument('user_id', required=True, type=int)
 class RecipesListResource(Resource):
     def get(self):
         session = db_session.create_session()
-        news = session.query(Recipes).all()
+        recipes = session.query(Recipes).all()
         return jsonify({'recipes': [item.to_dict(
-            only=('title', 'content', 'user_id', 'is_private', "created_date", "user.name", "id")) for item in news]})
+            only=('title', 'content', 'user_id', 'is_private', "created_date", "user.name", "id")) for item in recipes]})
 
     def post(self):
         args = parser.parse_args()
         session = db_session.create_session()
-        news = Recipes(
+        recipes = Recipes(
             title=args['title'],
             content=args['content'],
             user_id=args['user_id'],
             is_private=args['is_private']
         )
-        session.add(news)
+        session.add(recipes)
         session.commit()
         return jsonify({'success': 'OK'})
