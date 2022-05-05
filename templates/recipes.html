@@ -14,10 +14,10 @@
 </p>
 {% if current_user.id == recipes["user_id"] %}
 <div>
-    <a href="/news/{{ recipes['id'] }}" class="btn btn-warning">
+    <a href="/change_recipes/{{ recipes['id'] }}" class="btn btn-warning">
         Изменить
     </a>
-    <a href="/news_delete/{{ recipes['id'] }}" class="btn btn-danger">
+    <a href="/delete_recipes/{{ recipes['id'] }}" class="btn btn-danger">
         Удалить
     </a>
 </div>

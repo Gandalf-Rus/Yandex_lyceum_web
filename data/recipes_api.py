@@ -2,7 +2,7 @@ from flask import jsonify
 from flask_restful import abort, Resource, reqparse
 
 from data import db_session
-from data.news import News
+from data.recipes import News
 
 
 def abort_if_news_not_found(news_id):

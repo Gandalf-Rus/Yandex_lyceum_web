@@ -7,8 +7,8 @@ from requests import get
 
 from data import db_session, recipes_api
 from data.users import User
-from data.news import News
-from forms.new import NewsForm
+from data.recipes import News
+from forms.add_and_change_form import AddingForm
 from forms.user import RegisterForm
 from forms.login_form import LoginForm
 
@@ -45,21 +45,28 @@ def main():
 
     @app.route('/recipes/<int:id>')
     def recipes(id):
-        request = get(f'http://127.0.0.1:8080/api/recipes/{id}').json()
-        if "message" in request.keys():
+        """
+        тображение рецепта
+        :param id: id рецепта
+        :return: страницу
+        """
+
+        requests = get(f'http://127.0.0.1:8080/api/recipes/{id}').json()
+        if "message" in requests.keys():
             return render_template("recipes.html", message="Простите, но данного рецепта не было обнаружено")
 
-        if request["recipes"]["is_private"] is True:
+        if requests["recipes"]["is_private"] is True:
             if current_user.is_authenticated is False:
                 return render_template("recipes.html", message="Простите, но у вас нет доступа к этому рецепту")
-            elif current_user.id != request["recipes"]["user_id"]:
+            elif current_user.id != requests["recipes"]["user_id"]:
                 return render_template("recipes.html", message="Простите, но у вас нет доступа к этому рецепту")
-        return render_template("recipes.html", recipes=request["recipes"], message=None)
+        return render_template("recipes.html", recipes=requests["recipes"], message=None)
 
     @app.route('/register', methods=['GET', 'POST'])
     def reqister():
         """
         Форма регистрации
+        :return: страницу регистрации
         """
         form = RegisterForm()
         if form.validate_on_submit():
@@ -106,14 +113,15 @@ def main():
     def logout():
         """
         Выход из аккаунта
+        :return: главная страница
         """
         logout_user()
         return redirect("/")
 
-    @app.route('/news', methods=['GET', 'POST'])
+    @app.route('/add_recipes', methods=['GET', 'POST'])
     @login_required
     def add_news():
-        form = NewsForm()
+        form = AddingForm()
         if form.validate_on_submit():
             db_sess = db_session.create_session()
             news = News()
@@ -124,13 +132,13 @@ def main():
             db_sess.merge(current_user)
             db_sess.commit()
             return redirect('/')
-        return render_template('news.html', title='Добавление новости',
+        return render_template('add_change_recipes.html', title='Добавление рецепта',
                                form=form)
 
-    @app.route('/news/<int:id>', methods=['GET', 'POST'])
+    @app.route('/change_recipes/<int:id>', methods=['GET', 'POST'])
     @login_required
     def edit_news(id):
-        form = NewsForm()
+        form = AddingForm()
         if request.method == "GET":
             db_sess = db_session.create_session()
             news = db_sess.query(News).filter(News.id == id,
@@ -155,12 +163,12 @@ def main():
                 return redirect('/')
             else:
                 abort(404)
-        return render_template('news.html',
-                               title='Редактирование новости',
+        return render_template('add_change_recipes.html',
+                               title='Редактирование рецепта',
                                form=form
                                )
 
-    @app.route('/news_delete/<int:id>', methods=['GET', 'POST'])
+    @app.route('/delete_recipes/<int:id>', methods=['GET', 'POST'])
     @login_required
     def news_delete(id):
         db_sess = db_session.create_session()
