@@ -2,50 +2,71 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Arial", sans-serif;
-  font-size: 14px;
   line-height: 20px;
   color: #444444;
+  background-size: 100% 100%;
 }
 
 h1 {
   width: 255px;
   margin: 0 auto 8px;
-  font-family: "Georgia", serif;
+  font-family: "Arial", sans-serif;
   text-align: center;
-  font-weight: normal;
-  font-size: 42px;
-  line-height: 48px;
+  font-weight: bold;
+  font-size: 50px;
 }
 
-.container {
-  width: 510px;
-  margin: 0 auto;
+h2 {
+  margin-top: 30px;
   text-align: center;
+}
+
+h3 {
+    font-size: 30px
 }
 
 .site-header {
   min-width: 550px;
   height: 186px;
-  margin-bottom: 50px;
   padding-top: 30px;
-  background: #847462 no-repeat center url("../img/cooking.png");
   background-size: cover;
   color: #ffffff;
 }
 
 .site-footer {
-  min-width: 550px;
-  min-height: 100px;
-  background-color: #847462;
+  min-height: 70px;
+  background-color: #005707;
   color: #ffffff;
-}
-
-.site-footer .container {
+  margin-top: 40px;
   text-align: center;
 }
 
 .site-footer p {
+  margin-top: 25px;
   display: inline-block;
   vertical-align: middle;
   padding: 0 20px;
+}
+
+.primary-container {
+  background-color: #ffffff;
+  border-radius: 5px;
+  max-width: 72%;
+  margin: auto;
+}
+
+.navbar {
+    min-height: 60px;
+    border-radius: 5px 5px 0px 0;
+    margin-bottom: 40px;
+}
+
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(var(--bs-gutter-y) * -1);
+    margin-right: calc(var(--bs-gutter-x) * -.5);
+    margin-left: calc(var(--bs-gutter-x) * -.5);
 }

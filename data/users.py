@@ -1,11 +1,14 @@
-import datetime
 import sqlalchemy
+from flask_login import UserMixin
 from sqlalchemy import orm
-from .db_session import SqlAlchemyBase
+from sqlalchemy_serializer import SerializerMixin
+
+from data.db_session import SqlAlchemyBase
 from werkzeug.security import check_password_hash, generate_password_hash
+from tools.time_round import round_time
 
 
-class User(SqlAlchemyBase):
+class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     __tablename__ = 'users'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
@@ -13,7 +16,7 @@ class User(SqlAlchemyBase):
     about = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
+    created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=round_time())
 
     news = orm.relation("News", back_populates='user')
 
