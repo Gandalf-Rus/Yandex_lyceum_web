@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Записи в блоге</h2>
+<h2>Рецепты</h2>
 {% if current_user.is_authenticated %}
-<a href="/add_recipes" class="btn btn-secondary">Добавить рецепт</a>
+<p><a href="/add_recipes" class="btn btn-secondary">Добавить рецепт</a></p>
 {% endif %}
 <div class="row">
     {% for item in recipes%}
@@ -15,9 +15,13 @@
                 <div class="mb-1 text-muted">Автор: {{item.user.name}}</div>
                 <a href="/recipes/{{ item.id }}" class="stretched-link">Читать</a>
             </div>
+            {% if item.image == None %}
                 <img src="static/img/for_recipes.png" width="200" height="250">
-        </div>
+            {% else %}
+                <img src="{{ item.image }}" width="200" height="250">
+            {% endif %}
 
+        </div>
     </div>
     {% endfor %}
 </div>

@@ -11,6 +11,7 @@ class Recipes(SqlAlchemyBase, SerializerMixin):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     title = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    image = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     content = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=round_time())
     is_private = sqlalchemy.Column(sqlalchemy.Boolean, default=True)

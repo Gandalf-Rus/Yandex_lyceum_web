@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_restful import Api
@@ -11,6 +12,7 @@ from data.recipes import Recipes
 from forms.add_and_change_form import AddingForm
 from forms.user import RegisterForm
 from forms.login_form import LoginForm
+from tools.new_picture_name import give_picture_name
 
 # config
 app = Flask(__name__)
@@ -47,7 +49,7 @@ def main():
     @app.route('/recipes/<int:id>')
     def recipes(id):
         """
-        тображение рецепта
+        отображение рецепта
         :param id: id рецепта
         :return: страницу
         """
@@ -126,6 +128,11 @@ def main():
         if form.validate_on_submit():
             db_sess = db_session.create_session()
             recipes = Recipes()
+            photo = request.files['file']
+            if photo.filename != "":
+                name = give_picture_name()
+                photo.save(name)
+                recipes.image = name
             recipes.title = form.title.data
             recipes.content = form.content.data
             recipes.is_private = form.is_private.data
@@ -133,8 +140,7 @@ def main():
             db_sess.merge(current_user)
             db_sess.commit()
             return redirect('/')
-        return render_template('add_change_recipes.html', title='Добавление рецепта',
-                               form=form)
+        return render_template('add_change_recipes.html', title='Добавление рецепта', form=form)
 
     @app.route('/change_recipes/<int:id>', methods=['GET', 'POST'])
     @login_required
@@ -143,8 +149,7 @@ def main():
         if request.method == "GET":
             db_sess = db_session.create_session()
             recipes = db_sess.query(Recipes).filter(Recipes.id == id,
-                                                    Recipes.user == current_user
-                                                    ).first()
+                                                    Recipes.user == current_user).first()
             if recipes:
                 form.title.data = recipes.title
                 form.content.data = recipes.content
@@ -153,10 +158,17 @@ def main():
                 abort(404)
         if form.validate_on_submit():
             db_sess = db_session.create_session()
-            recipes = db_sess.query(Recipes).filter(Recipes.id == id,
-                                                    Recipes.user == current_user
-                                                    ).first()
+            recipes = db_sess.query(Recipes).filter(Recipes.id == id, Recipes.user == current_user).first()
             if recipes:
+                photo = request.files['file']
+                if photo.filename != "":
+                    if recipes.image is not None:
+                        name = recipes.image
+                        photo.save(name)
+                    else:
+                        name = give_picture_name()
+                        photo.save(name)
+                        recipes.image = name
                 recipes.title = form.title.data
                 recipes.content = form.content.data
                 recipes.is_private = form.is_private.data
@@ -164,10 +176,7 @@ def main():
                 return redirect('/')
             else:
                 abort(404)
-        return render_template('add_change_recipes.html',
-                               title='Редактирование рецепта',
-                               form=form
-                               )
+        return render_template('add_change_recipes.html', title='Редактирование рецепта', form=form)
 
     @app.route('/delete_recipes/<int:id>', methods=['GET', 'POST'])
     @login_required
@@ -177,6 +186,9 @@ def main():
                                                 Recipes.user == current_user
                                                 ).first()
         if recipes:
+            if recipes.image is not None:
+                if recipes.image.replace("static/img/", "") in os.listdir("static/img"):
+                    os.remove(recipes.image)
             db_sess.delete(recipes)
             db_sess.commit()
         else:

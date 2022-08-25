@@ -24,6 +24,9 @@
         </p>
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-        <div>{{ message }}</div>
+
+        {% if message %}
+            <div class="p-3 mb-2 bg-warning text-dark">{{ message }}</div>
+        {% endif %}
     </form>
 {% endblock %}
